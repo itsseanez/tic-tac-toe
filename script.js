@@ -5,8 +5,10 @@ const gameBoard = (() => {
     const displayBoard = () => {
         for (let i=0; i < _board.length; i++) {
             const boardButton= document.createElement('button');
-            boardButton.classList.add('board-button')
-        }
+            const board= document.querySelector('#game-board');
+            boardButton.classList.add('board-button');
+            board.appendChild(boardButton)
+        };
     }
     return {displayBoard};
 })();
