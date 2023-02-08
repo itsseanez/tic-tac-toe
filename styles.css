@@ -1,15 +1,14 @@
 body {
     display: grid;
-    grid-template-rows: 20vh 80vh;
+    grid-template-rows: 10vh 90vh;
     margin: 0;
 }
 
 .board-button {
     background-color: #F7EFE5;
-    color: #674188;
     border: 0px ;
-    height: 120px;
-    width: 120px;
+    height: 100px;
+    width: 100px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 8px;
 }
@@ -20,10 +19,7 @@ body {
 
 .button {
     background-color: #674188;
-    color: #F7EFE5;
     border: 0;
-    font-family: 'Oswald';
-    font-size: xx-large;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 8px;
     height: 48px;
@@ -35,10 +31,20 @@ body {
     background-color: #54346f;
 }
 
+.clicked {
+    background-color: #A61F69;
+    border: 0;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 8px;
+    height: 48px;
+    width: 160px;
+    border: 0;
+}
+
 #game-board {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-    gap: 10px 10px;
+    gap: 15px 15px;
 }
 
 #header {
@@ -46,7 +52,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -15px;
 }
 
 #main-content {
@@ -58,10 +63,18 @@ body {
 }
 
 #main-content > div:first-child {
-    margin-top: 20px;
+    display: flex;
+    gap: 50px;
 }
 
 .main-text {
     color: #F7EFE5;
     font-family: "Oswald";
+    font-size: xx-large;
+}
+
+.regular-text {
+    color: #674188;
+    font-family: "Lato";
+    font-size: xx-large;
 }
