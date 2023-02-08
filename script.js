@@ -8,10 +8,13 @@ const gameBoard = (() => {
             const board= document.querySelector('#game-board');
             boardButton.classList.add('board-button', 'regular-text');
             board.appendChild(boardButton);
+            boardButton.addEventListener('click', function() {
+                console.log(playerChoice);
+                boardButton.textContent= playerChoice;
+            });
         };
     }
 
-    const boardDisplay= document.querySelectorAll('.board-button');
     const xButton= document.getElementById('x');
     const oButton= document.getElementById('o');
     let playerChoice;
@@ -33,12 +36,6 @@ const gameBoard = (() => {
         oButton.classList.remove('button');
         oButton.classList.add('main-text', 'clicked');
         xButton.classList.add('button', 'main-text');
-    });
-    boardDisplay.forEach(function(boardButton)  {
-        boardButton.addEventListener('click', function() {
-            console.log(playerChoice);
-            boardButton.textContent= playerChoice;
-        });
     });
     return {displayBoard};
 })();
