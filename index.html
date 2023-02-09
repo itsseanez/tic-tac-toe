@@ -16,12 +16,19 @@
     </div>
     <div id="main-content">
         <div>
+            <h1 class="regular-text" style="padding-bottom: 5px;">Computer</h1>
+            <label class="switch" for="checkbox">
+                <input type="checkbox" id="checkbox">
+                <div class="slider round"></div>
+            </label>
+        </div>
+        <div>
             <button id='x' class="button main-text">X</button>
             <button id='o' class="button main-text">O</button>
         </div>
         <div id="game-board"></div>
         <button class="button main-text">Restart</button>
-        <h1 class="regular-text winning-text"></h1>
+        <h1 class="regular-text" id="winning-text"></h1>
     </div>
     <script src="script.js"></script>
 </body>

@@ -1,4 +1,72 @@
+//Player object(s)
+const player = (type, choice) => {
+    return {type, choice};
+};
+
+//let selectComputer= document.querySelector('#checkbox');
+
+let originalPlayer= player('Player', 'X');
+let currentPlayer= originalPlayer;
+let otherPlayer= player('Player', 'O');
+let selectComputer= document.querySelector('#checkbox');
+
+selectComputer.addEventListener('change', function() {
+    if(selectComputer.checked) {
+        otherPlayer.type='Computer';
+    }
+    else {
+        otherPlayer.type= 'Player';
+    }
+    console.log(selectComputer.checked)
+});
+
+
+const switchPlayer = () => {
+    if(currentPlayer=== originalPlayer) {
+        currentPlayer= otherPlayer;
+    }
+    else {
+        currentPlayer= originalPlayer;
+    }
+}
+
+//Tic tac toe board
 const gameBoard = (() => {
+    //Player Starts with x
+    const xButton= document.getElementById('x');
+    const oButton= document.getElementById('o');
+    xButton.classList.add('main-text', 'choice-clicked');
+    xButton.classList.remove('button');
+
+    //Decide player choice
+    xButton.addEventListener('click', function() {
+        if(selectComputer.checked) {
+            otherPlayer= player('Computer', 'O')
+        }
+        else {
+            otherPlayer= player('Player', 'O')
+        }
+        originalPlayer.choice= 'X';
+        oButton.classList.remove('choice-clicked');
+        xButton.classList.remove('button');
+        xButton.classList.add('main-text', 'choice-clicked');
+        oButton.classList.add('button', 'main-text');
+    });
+
+    oButton.addEventListener('click', function() {
+        if(selectComputer.checked) {
+            otherPlayer= player('Computer', 'X')
+        }
+        else {
+            otherPlayer= player('Player', 'X')
+        }
+        originalPlayer.choice='O';
+        xButton.classList.remove('choice-clicked');
+        oButton.classList.remove('button');
+        oButton.classList.add('main-text', 'choice-clicked');
+        xButton.classList.add('button', 'main-text');
+    });
+
     // displays board contents
     const createBoard = () => {
         // Creates array of tic tac toe spots
@@ -15,61 +83,41 @@ const gameBoard = (() => {
                 boardButton.classList.add('board-button', 'regular-text');
                 game.appendChild(boardButton);
                 board[i][j]=boardButton;
+                
                 //Adds player choice to button
                 boardButton.addEventListener('click', function() {
                     if(boardButton.textContent === '') {
-                        boardButton.textContent= playerChoice;
+                        boardButton.textContent= currentPlayer.choice;
+                        const winningText= document.querySelector('#winning-text');
+                        console.log(currentPlayer)
+                        if(gameController.checkWin()){
+                            winningText.textContent= `${currentPlayer.type} ${currentPlayer.choice} Wins`;
+                        }
+                        switchPlayer();
                     }
-                    gameController.checkWin();
+                    boardButton.classList.remove('board-button');
+                    boardButton.classList.add('board-button-clicked');
+                    //gameController.checkWin();
+                    
                     gameController.checkTie();
                 });
+
             }
         }
         return board;
     }
 
-    //Player Starts with x
-    let playerChoice= 'X';
-    const xButton= document.getElementById('x');
-    xButton.classList.add('main-text', 'clicked');
-    xButton.classList.remove('button');
-
-    //Decide player choice
-    const oButton= document.getElementById('o');
-
-    xButton.addEventListener('click', function() {
-        if(playerChoice=== 'O') {
-            oButton.classList.remove('clicked');
-        }
-        playerChoice= 'X';
-        xButton.classList.remove('button');
-        xButton.classList.add('main-text', 'clicked');
-        oButton.classList.add('button', 'main-text');
-    });
-
-    oButton.addEventListener('click', function() {
-        if(playerChoice=== 'X') {
-            xButton.classList.remove('clicked');
-        }
-        playerChoice= 'O';
-        oButton.classList.remove('button');
-        oButton.classList.add('main-text', 'clicked');
-        xButton.classList.add('button', 'main-text');
-    });
-
     return {createBoard};
 })();
 
-
-
+//Controls gameplay
 const gameController = (() => {
-    const winningText= document.querySelector('.winning-text');
+    const winningText= document.querySelector('#winning-text');
     let board= gameBoard.createBoard();
 
     //Check for win
     const checkWin = () => {
         if (checkRows(board) || checkColumns(board) || checkDiagonals(board)) {
-            winningText.textContent= `wins`;
             return true;
         }
         return false;
@@ -127,6 +175,6 @@ const gameController = (() => {
         }
     }
 
-    return {checkWin, checkTie};
+    return {checkWin, checkTie, currentPlayer, switchPlayer};
 })(); 
 
