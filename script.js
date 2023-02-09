@@ -69,6 +69,7 @@ const gameController = (() => {
     //Check for win
     const checkWin = () => {
         if (checkRows(board) || checkColumns(board) || checkDiagonals(board)) {
+            winningText.textContent= `wins`;
             return true;
         }
         return false;
@@ -86,6 +87,7 @@ const gameController = (() => {
             }
             }
         }
+        winningText.textContent= "It's a Draw";
         return true;
     }
 
