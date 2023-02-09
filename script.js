@@ -1,3 +1,13 @@
+//Start of the game
+let gameStart=false;
+
+//Reset game
+let reloadButton = document.querySelector('#reload');
+
+reloadButton.addEventListener('click', function () {
+  location.reload();
+});
+
 //Player object(s)
 const player = (type, choice) => {
     return {type, choice};
@@ -11,6 +21,7 @@ let otherPlayer= player('Player', 'O');
 let selectComputer= document.querySelector('#checkbox');
 
 selectComputer.addEventListener('change', function() {
+    if(!gameStart) {
     if(selectComputer.checked) {
         otherPlayer.type='Computer';
     }
@@ -18,8 +29,8 @@ selectComputer.addEventListener('change', function() {
         otherPlayer.type= 'Player';
     }
     console.log(selectComputer.checked)
+    }
 });
-
 
 const switchPlayer = () => {
     if(currentPlayer=== originalPlayer) {
@@ -40,31 +51,35 @@ const gameBoard = (() => {
 
     //Decide player choice
     xButton.addEventListener('click', function() {
-        if(selectComputer.checked) {
-            otherPlayer= player('Computer', 'O')
+        if(!gameStart) {
+            if(selectComputer.checked) {
+                otherPlayer= player('Computer', 'O')
+            }
+            else {
+                otherPlayer= player('Player', 'O')
+            }
+            originalPlayer.choice= 'X';
+            oButton.classList.remove('choice-clicked');
+            xButton.classList.remove('button');
+            xButton.classList.add('main-text', 'choice-clicked');
+            oButton.classList.add('button', 'main-text');
         }
-        else {
-            otherPlayer= player('Player', 'O')
-        }
-        originalPlayer.choice= 'X';
-        oButton.classList.remove('choice-clicked');
-        xButton.classList.remove('button');
-        xButton.classList.add('main-text', 'choice-clicked');
-        oButton.classList.add('button', 'main-text');
     });
 
     oButton.addEventListener('click', function() {
-        if(selectComputer.checked) {
-            otherPlayer= player('Computer', 'X')
+        if(!gameStart) {
+            if(selectComputer.checked) {
+                otherPlayer= player('Computer', 'X')
+            }
+            else {
+                otherPlayer= player('Player', 'X')
+            }
+            originalPlayer.choice='O';
+            xButton.classList.remove('choice-clicked');
+            oButton.classList.remove('button');
+            oButton.classList.add('main-text', 'choice-clicked');
+            xButton.classList.add('button', 'main-text');
         }
-        else {
-            otherPlayer= player('Player', 'X')
-        }
-        originalPlayer.choice='O';
-        xButton.classList.remove('choice-clicked');
-        oButton.classList.remove('button');
-        oButton.classList.add('main-text', 'choice-clicked');
-        xButton.classList.add('button', 'main-text');
     });
 
     // displays board contents
@@ -86,6 +101,7 @@ const gameBoard = (() => {
                 
                 //Adds player choice to button
                 boardButton.addEventListener('click', function() {
+                    gameStart=true;
                     if(boardButton.textContent === '') {
                         boardButton.textContent= currentPlayer.choice;
                         const winningText= document.querySelector('#winning-text');
