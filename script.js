@@ -1,5 +1,6 @@
-//Start of the game
+//Start and end of the game
 let gameStart=false;
+let gameEnd=false;
 
 //Reset game
 let reloadButton = document.querySelector('#reload');
@@ -12,8 +13,6 @@ reloadButton.addEventListener('click', function () {
 const player = (type, choice) => {
     return {type, choice};
 };
-
-//let selectComputer= document.querySelector('#checkbox');
 
 let originalPlayer= player('Player', 'X');
 let currentPlayer= originalPlayer;
@@ -53,10 +52,10 @@ const gameBoard = (() => {
     xButton.addEventListener('click', function() {
         if(!gameStart) {
             if(selectComputer.checked) {
-                otherPlayer= player('Computer', 'O')
+                otherPlayer.type='Computer';
             }
             else {
-                otherPlayer= player('Player', 'O')
+                otherPlayer.type= 'Player';
             }
             originalPlayer.choice= 'X';
             oButton.classList.remove('choice-clicked');
@@ -102,20 +101,24 @@ const gameBoard = (() => {
                 //Adds player choice to button
                 boardButton.addEventListener('click', function() {
                     gameStart=true;
-                    if(boardButton.textContent === '') {
-                        boardButton.textContent= currentPlayer.choice;
-                        const winningText= document.querySelector('#winning-text');
-                        console.log(currentPlayer)
-                        if(gameController.checkWin()){
-                            winningText.textContent= `${currentPlayer.type} ${currentPlayer.choice} Wins`;
+                    if(!gameEnd) {
+                        if(boardButton.textContent === '') {
+                            boardButton.textContent= currentPlayer.choice;
+                            const winningText= document.querySelector('#winning-text');
+                            console.log(currentPlayer)
+                            if(gameController.checkWin()){
+                                gameEnd= true;
+                                winningText.textContent= `${currentPlayer.type} ${currentPlayer.choice} Wins`;
+                            }
+                            switchPlayer();
                         }
-                        switchPlayer();
-                    }
-                    boardButton.classList.remove('board-button');
-                    boardButton.classList.add('board-button-clicked');
-                    //gameController.checkWin();
                     
-                    gameController.checkTie();
+                        boardButton.classList.remove('board-button');
+                        boardButton.classList.add('board-button-clicked');
+                        //gameController.checkWin();
+                        
+                        gameController.checkTie();
+                    }
                 });
 
             }
