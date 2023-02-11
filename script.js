@@ -2,13 +2,6 @@
 let gameStart=false;
 let gameEnd=false;
 
-//Reset game
-let reloadButton = document.querySelector('#reload');
-
-reloadButton.addEventListener('click', function () {
-  location.reload();
-});
-
 //Player object(s)
 const player = (type, choice) => {
     return {type, choice};
@@ -17,6 +10,7 @@ const player = (type, choice) => {
 let originalPlayer= player('Player', 'X');
 let currentPlayer= originalPlayer;
 let otherPlayer= player('Player', 'O');
+let winningPlayer=player(null, null);
 let selectComputer= document.querySelector('#checkbox');
 
 selectComputer.addEventListener('change', function() {
@@ -103,20 +97,39 @@ const gameBoard = (() => {
                     gameStart=true;
                     if(!gameEnd) {
                         if(boardButton.textContent === '') {
+                            boardButton.classList.remove('board-button');
+                        boardButton.classList.add('board-button-clicked');
                             boardButton.textContent= currentPlayer.choice;
                             const winningText= document.querySelector('#winning-text');
                             console.log(currentPlayer)
                             if(gameController.checkWin()){
                                 gameEnd= true;
+                                winningPlayer= currentPlayer;
                                 winningText.textContent= `${currentPlayer.type} ${currentPlayer.choice} Wins`;
                             }
                             switchPlayer();
+                            if(currentPlayer.type === 'Computer') {
+                                for (let i = 0; i < 3; i++) {
+                                    for (let j = 0; j < 3; j++) {
+                                        // Is the spot available?
+                                        if (board[i][j].textContent == '') {
+                                        board[i][j].textContent = otherPlayer.choice;
+                                        boardButton.classList.remove('board-button');
+                                        board[i][j].classList.add('board-button-clicked')
+                                        if(gameController.checkWin()){
+                                            gameEnd= true;
+                                            winningPlayer= currentPlayer;
+                                            winningText.textContent= `${currentPlayer.type} ${currentPlayer.choice} Wins`;
+                                        }
+                                        currentPlayer = originalPlayer;
+                                        return true
+                                        }
+                                    }
+                                }
+                            }
                         }
                     
-                        boardButton.classList.remove('board-button');
-                        boardButton.classList.add('board-button-clicked');
-                        //gameController.checkWin();
-                        
+
                         gameController.checkTie();
                     }
                 });
@@ -129,10 +142,12 @@ const gameBoard = (() => {
     return {createBoard};
 })();
 
+//Sets board as gameboard
+let board= gameBoard.createBoard();
+
 //Controls gameplay
 const gameController = (() => {
     const winningText= document.querySelector('#winning-text');
-    let board= gameBoard.createBoard();
 
     //Check for win
     const checkWin = () => {
@@ -194,6 +209,32 @@ const gameController = (() => {
         }
     }
 
-    return {checkWin, checkTie, currentPlayer, switchPlayer};
+    //Reset game
+    let reloadButton = document.querySelector('#reload');
+
+    reloadButton.addEventListener('click', function () {
+        location.reload();
+    });
+
+    return {checkWin, checkTie};
 })(); 
 
+const aiChoice = (() => {
+    function bestMove() {
+        // AI to make its turn
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                // Is the spot available?
+                if (board[i][j].textContent == '') {
+                board[i][j].textContent = otherPlayer.choice;
+                currentPlayer = originalPlayer;
+                return true;
+                }
+            }
+        }
+    }
+    
+      
+    
+    return {bestMove};
+})();
