@@ -1,0 +1,34 @@
+:root {
+    --primary-color: #252422;
+    --secondary-color: #403D39;
+    --tertiary-color: #CCC5B9;
+    --auxillary-color: #EB5E28;
+    --white-color: #FFFCF2;
+    --font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--white-color);
+}
+
+button {
+    background-color: var(--auxillary-color);
+    color: var(--white-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#header {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: .25rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
