@@ -12,6 +12,11 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
 }
 
 button {
@@ -24,6 +29,27 @@ button {
     font-size: 1rem;
 }
 
+#game-board {
+    display: grid;
+    width: 50vw;
+    height: 50vw;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--primary-color);
+    font-size: 2rem;
+    cursor: pointer;
+    background-color: var(--tertiary-color);
+}
+
 #header {
     background-color: var(--primary-color);
     color: var(--white-color);
@@ -31,4 +57,5 @@ button {
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
+    width: 100%;
 }
