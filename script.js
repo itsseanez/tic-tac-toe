@@ -47,6 +47,10 @@ const gameBoard = (() => {
 
     let displayBoard = () => {
         const boardContainer = document.getElementById('game-board');
+        const winnerContainer = document.getElementById('winner');
+        const resetButton = document.getElementById('reset-button');
+        resetButton.addEventListener('click', displayBoard);
+        winnerContainer.textContent = ''; // Clear previous winner if any
         boardContainer.innerHTML = ''; // Clear previous board if any
         let currentPlayer = gameController.switchPlayer(); // Initialize current player
         let board = createBoard();
@@ -64,8 +68,7 @@ const gameBoard = (() => {
                     cell.textContent = board[i][j];
                     const winner = checkWinner(board);
                     if (winner) {
-                        console.log(`${winner} wins!`);
-                        alert(`${currentPlayer.name} wins!`);
+                        winnerContainer.textContent = `${currentPlayer.name} wins!`;
                         return;
                     }
                     currentPlayer = gameController.switchPlayer();
